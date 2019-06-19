@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="/css/tickets_list.css">
+<link rel="stylesheet" href="/include/datatable/datatable.css">
+<?php if ($_SESSION['userRole'] == 'teacher'){?>
+    <div style="margin-bottom:10px;">
+        <a href="/tickets_list/?ticketList=unassigned" class="btn btn-primary <?php echo ($_GET['ticketList'] == '' || $_GET['ticketList'] == 'unassigned') ? "active" : "" ?>" style="color:white;">Неназначенные</a>
+        <a href="/tickets_list/?ticketList=wait" class="btn btn-primary <?php echo ($_GET['ticketList'] == 'wait') ? "active" : "" ?>" style="color:white;">Ждут подтверждения</a>
+        <a href="/tickets_list/?ticketList=me" class="btn btn-primary <?php echo ($_GET['ticketList'] == 'me') ? "active" : "" ?>" style="color:white;">Назначенные на мня</a>
+    </div>
+<?php } ?>
+<div class="content_box">
+    <div class="tab-content ">
+	    <div class="tab-pane fade show active" id="lorem" role="tabpanel">
+            <table id="tickets_list_table" class="tickets_list_table table table-bordered">
+                <thead>
+                <tr>
+                    <th>Номер заявки</th>
+                    <th>Дата создания</th>
+                    <th>Предмет</th>
+                    <th>Ученик</th>
+                    <th>Ответственный</th>
+                    <th>Этап</th>
+                    <th>Создатель</th>
+                    <th>Комментарий</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($tickets as $ticket){?>
+                        <tr>
+                            <td>
+                                <a href="/ticket/?ticket_id=<?php echo $ticket['id'] ?>" target="_blank">
+                                    <?php echo $ticket['id'] ?>
+                                </a>
+                            </td>
+                            <td><?php echo $ticket['create_date'] ?></td>
+                            <td><?php echo $ticket['name'] ?></td>
+                            <td>
+                                <?php echo $ticket['student_last_name'].' '
+                                .$ticket['student_first_name'].' '
+                                .$ticket['student_middle_name'] ?>
+                                (<?php echo $ticket['age'] ?>)
+                            </td>
+                            <td>
+                                <?php if ($ticket['rep_id']){
+                                    echo $ticket['rep_last_name'].' '
+                                    .$ticket['rep_first_name'].' '
+                                    .$ticket['rep_middle_name'];
+                                }else{
+                                    echo 'не назначен';
+                                }?>
+                            </td>
+                            <td>
+                                <?php echo $ticket['stage'] ? TicketUtils::STAGES_TO_RU_NAMES[$ticket['stage']] : "Нет этапа" ?>
+                            </td>
+                            <td>
+                                <?php echo $ticket['creator_last_name'].' '
+                                .$ticket['creator_first_name'].' '
+                                .$ticket['creator_middle_name'] ?>
+                            </td>
+                            <td>
+                                <?php if ($ticket['comm_id']){
+                                    echo $ticket['comment_text'];
+                                }else{
+                                    echo 'нет комментариев';
+                                }?>
+                            </td>
+                        </tr>
+                    <?php } ?>    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="/include/datatable/datatable.js"></script>
+<script src="/js/tickets_list.js"></script>

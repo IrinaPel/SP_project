@@ -1,4 +1,9 @@
 <link rel="stylesheet" type="text/css" href="/include/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/css/header.css">
+<script src="/include/JQuery/jquery.js"></script>
+<script src="/include/popper/popper.js"></script>
+<script src="/include/JQuery/maskedInput.js"></script>
+<script src="/js/auth_lib.js"></script>
 <div class="header clearfix">
     <nav>
       <ul class="nav nav-pills float-right">
@@ -8,10 +13,31 @@
         <li class="nav-item">
           <a class="nav-link" href="#">О нас</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/auth">Войти</a>
-        </li>
+        <?php if (!$_SESSION['login']): ?>
+            <li class="nav-item">
+                <a class="nav-link" href="/auth">Войти</a>
+            </li>
+        <?php else: ?>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="logout_btn">Выйти</a>
+            </li>
+            <li class="dropdown" id="dropdown_actions">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Действия <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="/tickets_list">Список заявок</a></li>
+                <?php if ($_SESSION['userRole'] == "call"){?>
+                  <li><a href="/create_ticket">Создание заявки</a></li>
+                <?php }?>
+                <li role="separator" class="divider"></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+                <span class="nav-link">Привет, <?php echo $_SESSION['userName']; ?>!</span>
+            </li>
+        <?php endif; ?>
       </ul>
     </nav>
     <h3 class="text-muted">CRM репетиторы</h3>
   </div>
+
+<script src="/js/header.js"></script>

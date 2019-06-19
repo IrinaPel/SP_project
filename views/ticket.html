@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="/css/ticket.css">
+<h3>
+    <?php if ($currentStage == 'done') { ?>
+        <button style="cursor:unset;" class="btn btn-success">
+            Закрыта с успехом
+        </button>
+    <?php }?>
+    Информация по заявке №<?php echo $ticketId;?> (<?php echo $currentTicketInfo['name'] ?>)
+</h3>
+<div class="bordered container">
+    <div class="bordered bordered row">
+        <div class="bordered col-6"> 
+            Текущий этап: <?php echo $currentStageName;?>
+            <?php if ($currentStage == 'assigned' && $_SESSION['userRole'] == 'admin'){?>
+                <div id="offer_accept_block">
+                    <button id="close_ticket" style="margin-top:10px;margin-bottom:10px;" class="btn btn-success" data-ticketid="<?php echo $ticketId?>">
+                        Успех
+                    </button>
+                    <button id="reopen_ticket" style="margin-top:10px;margin-bottom:10px;" class="btn btn-danger" data-ticketid="<?php echo $ticketId?>">
+                        Сбросить
+                    </button>
+                </div>
+            <?php }?>
+        </div>
+        <div class="bordered col-6">
+            Ответственный: <?php echo $currentStaffName;?><br>
+            <?php if ($currentStage == 'not assigned' && $_SESSION['userRole'] == 'admin'){?>
+                <select class="form-control" id="offer_staff_id">
+                    <?php foreach($currentReps as $rep) {?>
+                        <option value="<?php echo $rep['id']?>">
+                            <?php echo $rep['last_name'] . ' ' 
+                            . $rep['first_name'] . ' ' 
+                            . $rep['middle_name'];?>
+                        </option>
+                    <?php }?>
+                </select>
+                <button id="add_offer" style="margin-top:10px;margin-bottom:10px;" class="btn btn-success" data-ticketid="<?php echo $ticketId?>">
+                    Предложить репетитору
+                </button>
+            <?php } ?>
+            <?php if ($currentStage == 'not assigned' && $currentOfferedUserId == $_SESSION['userId']){?>
+                <div id="offer_accept_block">
+                    <button id="accept_offer" style="margin-top:10px;margin-bottom:10px;" class="btn btn-success" data-ticketid="<?php echo $ticketId?>">
+                        Принять
+                    </button>
+                    <button id="reject_offer" style="margin-top:10px;margin-bottom:10px;" class="btn btn-danger" data-ticketid="<?php echo $ticketId?>">
+                        Отклонить
+                    </button>
+                </div>
+            <?php }?>
+        </div>
+    </div>
+    <div class="bordered row">
+        <div class="bordered col-6">
+            <b>Ученик: </b> <br>
+            <b>ФИО: </b><?php echo $currentStudent['last_name'] . ' ' 
+                . $currentStudent['first_name'] . ' ' 
+                . $currentStudent['middle_name'];?><br>
+            <b>Возраст: </b><?php echo $currentStudent['age']?><br>
+            <b>Пол: </b><?php echo $currentStudent['gender'] == 'male' ? "Мужской" : "Женский"; ?>
+        </div>
+        <div class="bordered col-6">
+            Клиенты:<br>
+            <?php foreach($currentClients as $client){ ?>
+                <div class="bordered">
+                    <b>ФИО: </b><?php echo $client['last_name'] . ' ' 
+                        . $client['first_name'] . ' ' 
+                        . $client['middle_name'];?><br>
+                    <b>Телефон: </b><?php echo $client['phone']?><br>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="bordered row">
+        <div class="bordered col-12">
+        <b>Комментарии:</b> <br>
+            <div id="commentsBlock" class="col-12">
+                <?php foreach($currentComments as $comment){ ?>
+                    <div class="bordered" style="margin-bottom:10px;">
+                        <b><?php echo $comment['last_name'] . ' ' 
+                            . $comment['first_name'] . ' ' 
+                            . $comment['middle_name'] . ' ' .
+                            ' - '. TicketUtils::ROLES_TO_RU_NAMES[$comment['role_name']] . ' '
+                            . " (" . $comment['create_date'] . ")";?></b><br>
+                        <?php echo $comment['comment_text']?><br>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="margin-top:10px;">
+    <textarea id="comment" style="width:100%;height:60px;" placeholder="Комментарий"></textarea><br>
+    <button id="add_comment" style="margin-top:10px;" class="btn btn-primary" data-ticketid="<?php echo $ticketId?>">Добавить</button>
+</div>
+<script src="/js/ticket.js"></script>

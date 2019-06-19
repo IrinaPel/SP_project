@@ -1,0 +1,48 @@
+<link rel="stylesheet" type="text/css" href="/css/create_ticket.css">
+<!-- Default form contact -->
+<div class="text-center border border-light p-5" id="create_ticket_block">
+
+    <p class="h4 mb-4">Создание заявки</p>
+
+    <!-- Предмет -->
+    <select type="text" id="subject" class="form-control mb-4" placeholder="Предмет">
+        <option value="">--Выберите предмет--</option>
+        <?php foreach($comps as $comp){?>
+            <option value="<?php echo $comp['id']; ?>"><?php echo $comp['name']; ?></option>
+        <?php }?>
+    </select>
+
+    <label>Студент</label> <br>
+    
+    <!-- ФИО -->
+    <input type="text" id="student_last_name" class="fio_input mb-4" placeholder="Фамилия"> 
+    <input type="text" id="student_name" class="fio_input mb-4" placeholder="Имя"> 
+    <input type="text" id="student_middle_name" class="fio_input mb-4" placeholder="Отчество">
+    <input type="number" id="student_age" class="form-control mb-4" placeholder="Возраст">
+    <select type="text" id="student_gender" class="form-control mb-4" placeholder="Пол">
+        <option value="">--Выберите пол--</option>
+        <option value="male">мужской</option>
+        <option value="female">женский</option>
+    </select>
+    <!-- Клиент -->
+    <label>Клиент</label> <br><!-- Кнопка -->
+    <input type="text" id="client_last_name" class="fio_input mb-4" placeholder="Фамилия"> 
+    <input type="text" id="client_name" class="fio_input mb-4" placeholder="Имя"> 
+    <input type="text" id="client_middle_name" class="fio_input mb-4" placeholder="Отчество">
+    <input type="text" id="client_phone" class="phone form-control mb-4" placeholder="Телефон">
+   
+
+    <!-- Message -->
+    <div class="form-group">
+        <textarea class="form-control rounded-0" id="comment" rows="3" placeholder="Комментарий"></textarea>
+    </div>
+
+    
+
+    <!-- Send button -->
+    <button class="btn btn-info btn-block" id="create_ticket_btn">Создать заявку</button>
+
+</div>
+<!-- Default form contact -->
+
+<script src="/js/create_ticket.js"></script>

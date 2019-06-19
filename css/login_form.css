@@ -84,3 +84,9 @@ color: white;
 .links a{
 margin-left: 4px;
 }
+.forgot_passwd_btn{
+    color: white;
+}
+.forgot_passwd_btn:hover{
+    color: #FFC312;
+}

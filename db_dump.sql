@@ -55,7 +55,7 @@ CREATE TABLE clients (
     last_name VARCHAR(256) NULL, 
     first_name VARCHAR(256) NULL,
     middle_name VARCHAR(256) NULL,
-    phone VARCHAR(11) NOT NULL,
+    phone VARCHAR(32) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE tickets_clients (
 
 CREATE TABLE ticket_stages (
     id INT AUTO_INCREMENT,
-    stage ENUM('assigned', 'not assigned', 'processing') NULL, -- исправить на enum
+    stage ENUM('assigned', 'not assigned', 'done') NULL, 
     ticket_id INT NOT NULL,
     create_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
@@ -91,6 +91,12 @@ CREATE TABLE comments (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE ticket_offers (
+    ticket_id INT NOT NULL,
+    user_id INT NOT NULL,
+    PRIMARY KEY (ticket_id) 
+);
+
 drop table if exists users,
 roles,
 user_roles,
@@ -103,15 +109,36 @@ tickets_clients,
 ticket_stages,
 comments;
 
+--inserts
+INSERT INTO competencies(id, name) VALUES
+(1, 'Математика'),
+(2, 'Русский язык'),
+(3, 'Информатика'),
+(4, 'Английский язык'),
+(5, 'Немецкий язык'),
+(6, 'Программирование'),
+(7, 'История');
 
 
+INSERT INTO roles(id, name) VALUES
+(1,'admin'),
+(2,'call'),
+(3,'teacher');
 
 
+INSERT INTO users(id, last_name, first_name, middle_name, login, password, gender) VALUES
+(6,'Попов', 'Степан', 'Алексеевич','popov', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'male'),
+(7,'Морозова', 'Марина', 'Михайловна','morozova', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'female'),
+(8,'Орлов', 'Евгений', 'Павлович','orlov', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'male'),
+(9,'Андреев', 'Борис', 'Николаевич','andreev', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'male'),
+(10,'Зайцева', 'Людмила', 'Олеговна','zaiceva', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'female'),
+(11,'Белов', 'Павел', 'Александрович','belov', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'male'),
+(12,'Ковалева', 'Анна', 'Петровна','kovaleva', '9b56ca8566a48b98a8c29a7fd307038ed555123439a937eb85d9c45166881e6e', 'female');
 
 
+INSERT INTO user_competencies(user_id, comp_id)
+VALUES (10, 3),
+(11, 3),(11, 4);
 
-
-
-
-
-
+INSERT INTO user_roles(user_id, role_id)
+VALUES (1,2),(2,1),(10,3),(11,3);

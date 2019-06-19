@@ -1,4 +1,5 @@
 <?php
+//класс для работы с БД
     class DB{
         protected $conn;
         protected $stats;
